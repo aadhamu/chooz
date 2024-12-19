@@ -6,8 +6,6 @@
         }
     </script>
 
-
-
 <nav class="bg-transparent text-blue-800 py-4 px-6 relative ">
     <div class=" flex justify-between items-center">
         

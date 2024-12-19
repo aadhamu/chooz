@@ -1,4 +1,5 @@
 <?php
  $page = 'create-poll';
- require_once 'dashboard.php'
+ require_once 'dashboard.php';
+
 ?>

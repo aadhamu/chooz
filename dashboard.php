@@ -1,3 +1,6 @@
+<?php
+  require_once "components/auth.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,30 +15,40 @@
     <?php include 'components/dashboardheader.php'?>
     <div class="flex flex-1">
         <?php include 'components/sidebar.php'; ?>
-        <div class="flex-1 p-6 ml-64 " id="main-content">
+        <div class="flex-1 p-6 ml-64  " id="main-content">
             <?php 
             if(!isset($page)){
                 require_once 'components/dashboard.php';
-            }
-            ?>
-            <?php 
-            if(isset($page) && $page ==='vote'){
+            }elseif(isset($page) && $page ==='vote'){
                 require_once 'components/vote.php';
-            }
-            ?>
-            <?php 
-            if(isset($page) && $page ==='settings'){
+            }elseif(isset($page) && $page ==='settings'){
                 require_once 'components/setting.php';
-            }
-            ?>
-            <?php 
-            if(isset($page) && $page ==='profile'){
+            }elseif(isset($page) && $page ==='profile'){
                 require_once 'components/profile.php';
-            }
-            ?>
-            <?php 
-            if(isset($page) && $page ==='create-poll'){
+            }elseif(isset($page) && $page ==='create-poll'){
                 require_once 'components/createpoll.php';
+            }elseif(isset($page) && $page ==='my-poll'){
+                require_once 'components/mypoll.php';
+            }elseif(isset($page) && $page ==='analysis'){
+                require_once 'components/analysis.php';
+            }elseif(isset($page) && $page ==='wallet'){
+                require_once 'components/wallet.php';
+            }elseif(isset($page) && $page ==='validatekey'){
+                require_once 'components/validatekey.php';
+            }elseif(isset($page) && $page ==='polldetails'){
+                require_once 'components/polldetails.php';
+            }elseif(isset($page) && $page ==='nomineeDetails'){
+                require_once 'components/nomineeDetails.php';
+            }elseif(isset($page) && $page ==='public'){
+                require_once 'components/public.php';
+            }elseif(isset($page) && $page ==='publickey'){
+                require_once 'components/publicvote.php';
+            }elseif(isset($page) && $page ==='pollcreator'){
+                require_once 'components/pollanalysis.php';
+            }elseif(isset($page) && $page ==='participatedpoll'){
+                require_once 'components/participatedpoll.php';
+            }elseif(isset($page) && $page ==='option-analysis'){
+                require_once 'components/optionanalysis.php';
             }
             ?>
 

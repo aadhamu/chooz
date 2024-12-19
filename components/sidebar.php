@@ -13,16 +13,16 @@
         </a>
     </div>
 
-    <!-- User Profile Section -->
-    <div class="flex flex-col items-center p-6 border-b border-gray-200 transition-all duration-300 ease-in-out" id="profile-section">
+    <div class="flex flex-col items-center  border-b border-gray-200 transition-all duration-300 ease-in-out" id="profile-section">
         <img 
-            src="https://via.placeholder.com/100" 
+            src="<?php echo $user['profile_image'] ? 'profile_images/' . $user['profile_image'] : 'assets/profile.png'; ?>" 
             alt="User Profile" 
             class="w-16 h-16 rounded-full object-cover border-4 border-blue-300 shadow-md transition-all duration-300 ease-in-out" id="profile-image"
         >
+
         <div class="mt-3 text-center" id="profile-text">
-            <h3 class="text-lg font-semibold text-gray-800" id="profile-name">Juan Dela Cruz</h3>
-            <a href="#" class="text-sm text-blue-500 hover:underline">View Profile</a>
+            <h3 class="text-lg font-semibold text-gray-800" id="profile-name"><?= ucfirst(strtolower($user['firstname'])) ?></h3>
+            <a href="profile.php" class="text-sm text-blue-500 hover:underline">View Profile</a>
         </div>
     </div>
 
@@ -35,18 +35,39 @@
                     <span class="font-medium nav-text">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="vote.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
-                    <i class="fas fa-vote-yea w-5 h-5"></i>
-                    <span class="font-medium nav-text">Vote</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="createpoll.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
-                    <i class="fas fa-poll-h w-5 h-5"></i>
-                    <span class="font-medium nav-text">Create Poll</span>
-                </a>
-            </li>
+            <li class="nav-item relative">
+    <!-- Parent Menu Item -->
+    <button onclick="toggleDropdown()" class="flex items-center justify-between space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition w-full">
+    <div>
+        <i class="fas fa-poll w-5 h-5"></i>
+        <span class="font-medium nav-text">Poll</span>
+    </div>    
+        <i id="chevron" class="fas fa-chevron-down ml-auto transition-transform"></i>
+    </button>
+    
+    <!-- Dropdown Menu -->
+    <ul id="pollDropdown" class=" left-0 mt-2  shadow-lg rounded-lg w-full hidden">
+        <li class="nav-item">
+            <a href="validatekey.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
+                <i class="fas fa-vote-yea w-5 h-5"></i>
+                <span class="font-medium nav-text">Private poll</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="public.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
+                <i class="fas fa-vote-yea w-5 h-5"></i>
+                <span class="font-medium nav-text">Public poll</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="createpoll.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
+                <i class="fas fa-poll-h w-5 h-5"></i>
+                <span class="font-medium nav-text">Create Poll</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
             <li class="nav-item">
                 <a href="mypoll.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
                     <i class="fas fa-poll w-5 h-5"></i>
@@ -61,12 +82,28 @@
             </li>
             
             <li class="nav-item">
-                <a href="#" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
-                    <i class="fas fa-right-from-bracket w-5 h-5"></i>
-                    <span class="font-medium nav-text">Log Out</span>
-                </a>
+            <a href="javascript:void(0)" onclick="showLogoutModal()" 
+                class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition">
+                <i class="fas fa-right-from-bracket w-5 h-5"></i>
+                <span class="font-medium nav-text">Log Out</span>
+            </a>
             </li>
         </ul>
+
+        <!-- Logout modal -->
+        <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h2 class="text-lg font-semibold text-gray-800 text-center">Are you sure you want to log out?</h2>
+            <div class="mt-6 flex justify-between">
+                <button 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" 
+                    onclick="confirmLogout()">Yes</button>
+                <button 
+                    class="bg-gray-100 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-200 transition" 
+                    onclick="closeLogoutModal()">No</button>
+            </div>
+        </div>
+    </div>
     </nav>
 </div>
 
@@ -107,4 +144,28 @@
             item.classList.toggle('hidden');
         });
     });
+
+
+
+    function showLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('hidden');
+        }
+
+        // Function to close the logout modal
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').classList.add('hidden');
+        }
+
+        // Function to confirm logout and redirect to logout.php
+        function confirmLogout() {
+            window.location.href = 'logout.php';
+        }
+
+        function toggleDropdown() {
+    const dropdown = document.getElementById('pollDropdown');
+    const chevron = document.getElementById('chevron');
+    dropdown.classList.toggle('hidden'); // Toggle visibility
+    chevron.classList.toggle('rotate-180'); // Toggle chevron direction
+}
+
 </script>
